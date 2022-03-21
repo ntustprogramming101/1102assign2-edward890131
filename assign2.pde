@@ -30,7 +30,7 @@ final int LIFE_0 = 3;
 int gameState;
 int lifeState;
 int piece = 80;
-int groundhogCount;
+int groundhogCount = 0;
 
 int btnX = 248;
 int btnY = 360;
@@ -81,6 +81,7 @@ void setup() {
   
   gameState = GAME_START;
   lifeState = LIFE_DEFAULT;
+  frameRate(60); 
 }
 
 void draw() {
@@ -135,25 +136,92 @@ void draw() {
       
      
       //groundhog control
-      image(groundhogIdle, groundhogX, groundhogY); 
+      //have to keep pressed
       
-      //if(upPressed){
-      //  groundhogY -= piece;
-      //}
-      //if(downPressed){
-      //  //image(groundhogDown, groundhogX, groundhogY); 
-      //  groundhogY += piece;
-      //}
-      //if(leftPressed){
-      //  //image(groundhogLeft, groundhogX, groundhogY); 
-      //  groundhogX -= piece;
-      //}
-      //if(rightPressed){
-      //  //image(groundhogRight, groundhogX, groundhogY); 
-      //  groundhogX += piece;
+      if(upPressed){
+        if(groundhogCount < 15){
+          groundhogY -= 80.0/15;
+          image(groundhogIdle, groundhogX, groundhogY);
+          groundhogCount++; 
+        } 
+        else{
+          groundhogCount = 0; 
+          upPressed = false;
+        }
+      }
+      
+      
+      if(downPressed){ //downPressed = true
+        if(groundhogCount < 15){
+          groundhogY += 80.0/15;
+          image(groundhogDown, groundhogX, groundhogY);
+          groundhogCount++;
+        } 
+        else{
+          groundhogCount = 0; 
+          downPressed = false;
+        }
+      }
+      
+      
+      if(leftPressed){
+        if(groundhogCount < 15){
+          groundhogX -= 80.0/15;
+          image(groundhogLeft, groundhogX, groundhogY);
+          groundhogCount++;
+        } 
+        else{
+          groundhogCount = 0; 
+          leftPressed = false;
+        }
+      }
+      
+      
+      if(rightPressed){
+        if(groundhogCount < 15){
+          groundhogX += 80.0/15;
+          image(groundhogRight, groundhogX, groundhogY); 
+          groundhogCount++;
+        }
+        else{
+          groundhogCount = 0; 
+          rightPressed = false; 
+        }
+      }
+      
+      
+      //no press -> idle
+      if(rightPressed == false && leftPressed == false 
+      && upPressed == false && downPressed == false){
+        image(groundhogIdle, groundhogX, groundhogY);
+      }
+      
+      
+      //if(groundhogCount < 15){
+      //  if(upPressed){
+      //    image(groundhogIdle, groundhogX, groundhogY);
+      //    groundhogY -= 80.0/15;
+      //  }
+      //  if(downPressed){
+      //    image(groundhogDown, groundhogX, groundhogY);
+      //    groundhogY += 80.0/15;
+      //  }
+      //  if(leftPressed){
+      //    image(groundhogLeft, groundhogX, groundhogY);
+      //    groundhogX -= 80.0/15;
+      //  }
+      //  if(rightPressed){
+      //    image(groundhogRight, groundhogX, groundhogY);
+      //    groundhogX += 80.0/15;
+      //  }
+      //  groundhogCount++;
+      //} 
+      //else{
+      //  groundhogCount = 0;
       //}
       
-
+      
+ 
       //boundary detection of the groundhog
       if(groundhogX < 0){
         groundhogX = 0;
@@ -167,6 +235,7 @@ void draw() {
       if(groundhogY > height - piece){
         groundhogY = height - piece;
       }
+      
       
       //groundhog meetSoldier -> turn to initial 
       if (groundhogX < soldierX+piece && groundhogX+piece > soldierX 
@@ -198,7 +267,7 @@ void draw() {
           image(life, lifeX, lifeY);
           image(life, lifeX+lifeWidth+lifeSpacing, lifeY);
           if(eatCabbage){
-            println("life 2-3");
+            //println("life 2-3");
             lifeState = LIFE_3;
             eatCabbage = false;
           }
@@ -212,12 +281,12 @@ void draw() {
         case LIFE_1:
           image(life, lifeX, lifeY);
           if(eatCabbage){
-            println("life 1-2");
+            //println("life 1-2");
             lifeState = LIFE_DEFAULT;
             eatCabbage = false;
           }
           else if(meetSoldier){
-            println("life 1-0");
+            //println("life 1-0");
             lifeState = LIFE_0;
             meetSoldier = false;
           }
@@ -228,7 +297,7 @@ void draw() {
           image(life, lifeX+lifeWidth+lifeSpacing, lifeY);
           image(life, lifeX+lifeWidth*2+lifeSpacing*2, lifeY);
           if(meetSoldier){
-            println("life 3-2");
+            //println("life 3-2");
             lifeState = LIFE_DEFAULT;
             meetSoldier = false;
           }
@@ -266,90 +335,97 @@ void draw() {
   }
 }
 
-void keyPressed(){
-  if(gameState == GAME_RUN){
-   if (key == CODED) {
+
+void keyPressed() {
+  if (key == CODED) { // detect special keys 
     switch (keyCode) {
       case UP:
-        for(groundhogCount = 0; groundhogCount <= 15; groundhogCount++){
-          image(groundhogIdle, groundhogX, groundhogY); 
-          groundhogY -= 80.0/16;
-        }
-        image(groundhogIdle, groundhogX, groundhogY); 
+        upPressed = true;
         break;
-       
       case DOWN:
-        //wrong
-        for(groundhogCount = 0; groundhogCount <= 15; groundhogCount++){
-          groundhogY += 80.0/16;
-          image(groundhogDown, groundhogX, groundhogY); 
-          
-        }
-        image(groundhogIdle, groundhogX, groundhogY); 
+        downPressed = true;
         break;
-        
       case LEFT:
-        for(groundhogCount = 0; groundhogCount <= 15; groundhogCount++){
-          image(groundhogLeft, groundhogX, groundhogY); 
-          groundhogX -= 80.0/16;
-        }
-        image(groundhogIdle, groundhogX, groundhogY); 
+        leftPressed = true;
         break;
-        
       case RIGHT:
-        for(groundhogCount = 0; groundhogCount <= 15; groundhogCount++){
-          image(groundhogRight, groundhogX, groundhogY); 
-          groundhogX += 80.0/16;
-        }
-        image(groundhogIdle, groundhogX, groundhogY); 
+        rightPressed = true;
         break;
-        //timer=0
-        //timer++;
-        
-      }
     }
   }
 }
 
-void keyReleased(){
-  image(groundhogIdle, groundhogX, groundhogY); 
+void keyReleased() {
+  //image(groundhogIdle, groundhogX, groundhogY); 
+  if (key == CODED) {
+    switch (keyCode) {
+      case UP:
+        upPressed = false;
+        break;
+      case DOWN:
+        downPressed = false;
+        break;
+      case LEFT:
+        leftPressed = false;
+        break;
+      case RIGHT:
+        rightPressed = false;
+        break;
+    }
+  }
 }
 
-//void keyPressed() {
-//  if (key == CODED) { // detect special keys 
+
+//void keyPressed(){
+//  if(gameState == GAME_RUN){
+//   if (key == CODED) {
 //    switch (keyCode) {
 //      case UP:
-//        upPressed = true;
+        
+//        //for(groundhogCount = 0; groundhogCount <= 15; groundhogCount++){
+//        //  image(groundhogIdle, groundhogX, groundhogY); 
+//        //  groundhogY -= 80.0/16;
+//        //}
+//        //image(groundhogIdle, groundhogX, groundhogY); 
 //        break;
+       
 //      case DOWN:
-//        downPressed = true;
+        
+//        //for(groundhogCount = 0; groundhogCount <= 15; groundhogCount++){
+//        //  groundhogY += 80.0/16;
+//        //  image(groundhogDown, groundhogX, groundhogY); 
+          
+//        //}
+//        //image(groundhogIdle, groundhogX, groundhogY); 
 //        break;
+        
 //      case LEFT:
-//        leftPressed = true;
+        
+//        //for(groundhogCount = 0; groundhogCount <= 15; groundhogCount++){
+//        //  image(groundhogLeft, groundhogX, groundhogY); 
+//        //  groundhogX -= 80.0/16;
+//        //}
+//        //image(groundhogIdle, groundhogX, groundhogY); 
 //        break;
+        
 //      case RIGHT:
-//        rightPressed = true;
+        
+//        //for(groundhogCount = 0; groundhogCount <= 15; groundhogCount++){
+//        //  image(groundhogRight, groundhogX, groundhogY); 
+//        //  groundhogX += 80.0/16;
+//        //}
+//        //image(groundhogIdle, groundhogX, groundhogY); 
 //        break;
+        
+//        //if no into next -> speed++
+//        //timer=0
+//        //timer++;
+        
+//      }
 //    }
 //  }
 //}
 
-//void keyReleased() {
-//  image(groundhogIdle, groundhogX, groundhogY); 
-//  if (key == CODED) {
-//    switch (keyCode) {
-//      case UP:
-//        upPressed = false;
-//        break;
-//      case DOWN:
-//        downPressed = false;
-//        break;
-//      case LEFT:
-//        leftPressed = false;
-//        break;
-//      case RIGHT:
-//        rightPressed = false;
-//        break;
-//    }
-//  }
+//void keyReleased(){
+//  //image(groundhogIdle, groundhogX, groundhogY); 
 //}

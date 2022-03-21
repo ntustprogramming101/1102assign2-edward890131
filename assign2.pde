@@ -267,20 +267,23 @@ void draw() {
 }
 
 void keyPressed(){
+  if(gameState == GAME_RUN){
    if (key == CODED) {
     switch (keyCode) {
       case UP:
         for(groundhogCount = 0; groundhogCount <= 15; groundhogCount++){
           image(groundhogIdle, groundhogX, groundhogY); 
-          groundhogY -= piece/15;
+          groundhogY -= 80.0/16;
         }
         image(groundhogIdle, groundhogX, groundhogY); 
         break;
        
       case DOWN:
+        //wrong
         for(groundhogCount = 0; groundhogCount <= 15; groundhogCount++){
+          groundhogY += 80.0/16;
           image(groundhogDown, groundhogX, groundhogY); 
-          groundhogY += piece/15;
+          
         }
         image(groundhogIdle, groundhogX, groundhogY); 
         break;
@@ -288,7 +291,7 @@ void keyPressed(){
       case LEFT:
         for(groundhogCount = 0; groundhogCount <= 15; groundhogCount++){
           image(groundhogLeft, groundhogX, groundhogY); 
-          groundhogX -= piece/15;
+          groundhogX -= 80.0/16;
         }
         image(groundhogIdle, groundhogX, groundhogY); 
         break;
@@ -296,10 +299,14 @@ void keyPressed(){
       case RIGHT:
         for(groundhogCount = 0; groundhogCount <= 15; groundhogCount++){
           image(groundhogRight, groundhogX, groundhogY); 
-          groundhogX += piece/15;
+          groundhogX += 80.0/16;
         }
         image(groundhogIdle, groundhogX, groundhogY); 
         break;
+        //timer=0
+        //timer++;
+        
+      }
     }
   }
 }

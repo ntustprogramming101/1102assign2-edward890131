@@ -348,9 +348,9 @@ void keyPressed() {
 void keyReleased() {
   if (key == CODED) {
     switch (keyCode) {
-      case UP:
-        upPressed = false;
-        break;
+      //case UP:
+      //  upPressed = false;
+      //  break;
       case DOWN:
         downPressed = false;
         break;

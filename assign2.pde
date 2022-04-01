@@ -27,7 +27,7 @@ final int LIFE_3 = 2;
 final int LIFE_0 = 3;
 
 final int GROUNDHOG_IDLE = 0;
-final int GROUNDHOG_UP = 1;
+//final int GROUNDHOG_UP = 1;
 final int GROUNDHOG_DOWN = 2;
 final int GROUNDHOG_LEFT = 3;
 final int GROUNDHOG_RIGHT = 4;
@@ -152,11 +152,11 @@ void draw() {
         break;
         
         //up
-        case GROUNDHOG_UP:
-          image(groundhogIdle,groundhogX, groundhogY);
-          groundhogY -= 80.0/15;
-          groundhogCount++;
-        break;
+        //case GROUNDHOG_UP:
+        //  image(groundhogIdle,groundhogX, groundhogY);
+        //  groundhogY -= 80.0/15;
+        //  groundhogCount++;
+        //break;
         
         //down
         case GROUNDHOG_DOWN:
@@ -291,6 +291,7 @@ void draw() {
               groundhogX = piece*4;
               groundhogY = piece;
               groundhogState = GROUNDHOG_IDLE;
+              soldierY = piece*2 + floor(random(4))*piece;
             } else{
               // hover
               image(restartHovered, btnX, btnY);
@@ -306,14 +307,14 @@ void keyPressed() {
   if (key == CODED) { 
     switch (keyCode) {
       
-      case UP:
-        upPressed = true;
-        if(groundhogY > piece*2 
-        && groundhogState == GROUNDHOG_IDLE){
-          groundhogState = GROUNDHOG_UP;
-          groundhogCount = 0;
-        }
-        break;
+      //case UP:
+      //  upPressed = true;
+      //  if(groundhogY > piece*2 
+      //  && groundhogState == GROUNDHOG_IDLE){
+      //    groundhogState = GROUNDHOG_UP;
+      //    groundhogCount = 0;
+      //  }
+      //  break;
         
       case DOWN:
         downPressed = true;

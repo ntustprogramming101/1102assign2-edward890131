@@ -143,22 +143,22 @@ void draw() {
       image(soldier, soldierX, soldierY); 
       
        
-      if(groundhogCount==15){
-          groundhogState=GROUNDHOG_IDLE;
-          if(groundhogY%piece<30){
-            groundhogY=groundhogY-groundhogY%piece;
-          }else{
-            groundhogY=groundhogY-groundhogY%piece+piece;
-          }
-          if(groundhogX%piece<30){
-            groundhogX=groundhogX-groundhogX%piece;
-          }else{
-            groundhogX=groundhogX-groundhogX%piece+piece;
-          }
-          println(groundhogX);
-          println(groundhogY);
-          groundhogCount=0;
-      }
+      //if(groundhogCount==15){
+      //    groundhogState=GROUNDHOG_IDLE;
+      //    if(groundhogY%piece<30){
+      //      groundhogY=groundhogY-groundhogY%piece;
+      //    }else{
+      //      groundhogY=groundhogY-groundhogY%piece+piece;
+      //    }
+      //    if(groundhogX%piece<30){
+      //      groundhogX=groundhogX-groundhogX%piece;
+      //    }else{
+      //      groundhogX=groundhogX-groundhogX%piece+piece;
+      //    }
+      //    println(groundhogX);
+      //    println(groundhogY);
+      //    groundhogCount=0;
+      //}
       
       // setup groundhog state 
       switch(groundhogState){
@@ -200,6 +200,9 @@ void draw() {
       
       // groundhogCount reset
       if(groundhogCount==15){
+        groundhogState = GROUNDHOG_IDLE;
+        groundhogX = round(groundhogX);
+        groundhogY = round(groundhogY);
         groundhogState = GROUNDHOG_IDLE;
         groundhogCount = 0;
       }
@@ -317,6 +320,7 @@ void draw() {
     break;
     
   }
+  println(groundhogX,groundhogY);
 }
 
 
